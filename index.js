@@ -5,7 +5,7 @@ const cors =  require('cors')
 
 const configureDB = require('./config/db')
 
-const {userRegisterValidationSchema} = require('./app/validations/user-validations')
+const {userRegisterValidationSchema, userLoginValidationSchema} = require('./app/validations/user-validations')
 
 
 const userCtrl = require('./app/controllers/user-ctrl')
@@ -22,6 +22,7 @@ app.use(morgan('common'))
 app.use(cors())
 
 app.post('/users/register', checkSchema(userRegisterValidationSchema), userCtrl.register)
+app.post('/users/login', checkSchema(userLoginValidationSchema), userCtrl.login)
 
 
 

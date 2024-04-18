@@ -90,4 +90,64 @@ const userRegisterValidationSchema = {
     }
 }
 
-module.exports = { userRegisterValidationSchema }
+const userLoginValidationSchema = {
+    firstName: {
+        in: ['body'],
+        exists: {
+            errorMessage: 'first name is required'
+        },
+        notEmpty: {
+            errorMessage: 'first name cannot be empty'
+        },
+        trim: true
+    },
+    lastName: {
+        in: ['body'],
+        exists: {
+            errorMessage: 'last name is required'
+        },
+        notEmpty: {
+            errorMessage: 'last name cannot be empty'
+        },
+        trim: true
+    },
+    email: {
+        in: ['body'],
+        exists: {
+            errorMessage: 'email is required'
+        },
+        notEmpty: {
+            errorMessage: 'email cannot be empty'
+        },
+        isEmail: {
+            errorMessage: 'email should be a valid format'
+        },
+        trim: true,
+        normalizeEmail: true,
+    },
+    password: {
+        in: ['body'],
+        exists: {
+            errorMessage: 'password is required'
+        },
+        notEmpty: {
+            errorMessage: 'password cannot be empty'
+        },
+        isLength: {
+            options: { min: 8, max: 128 },
+            errorMessage: "password should be between 8-128 character"
+        },
+        custom: {
+            options: (value) => {
+                if (!passwordValidation(value)) {
+                    throw new Error('Password needs 1 uppercase, 1 special character, and 1 number.')
+                } else {
+                    return true
+                }
+            }
+        },
+        trim: true
+    }
+}
+
+module.exports = { userRegisterValidationSchema, userLoginValidationSchema }
