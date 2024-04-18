@@ -7,6 +7,12 @@ const configureDB = require('./config/db')
 
 const {userRegisterValidationSchema} = require('./app/validations/user-validations')
 
+
+const userCtrl = require('./app/controllers/user-ctrl')
+const { checkSchema } = require('express-validator')
+
+
+
 const app = express()
 const port = 3334
 
@@ -15,7 +21,7 @@ app.use(express.json())
 app.use(morgan('common'))
 app.use(cors())
 
-
+app.post('/users/register', checkSchema(userRegisterValidationSchema), userCtrl.register)
 
 
 
